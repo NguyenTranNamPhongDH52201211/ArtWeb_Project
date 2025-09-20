@@ -27,7 +27,7 @@ export class userRepository{
         return user.length >0 ? user[0]:null;
     }
 
-    async createUser (user:Omit<User,"id_user"|"created_at">):Promise<User>{
+    async createUser (user:Omit<User,"id_user"|"created_at">,id_user: "id_user", created_at: "created_at"):Promise<User>{
         const id=uuidv4();
         const createdAt=new Date();
 
@@ -42,7 +42,15 @@ export class userRepository{
                 createdAt
             ]
         );
-        return {...user,id_user:id,created_at:createdAt};
+        return {
+            id_user: id,
+            full_name: user.full_name,
+            email: user.email,
+            password_hash: user.password_hash,
+            phone: user.phone,
+            roles: user.roles,
+            created_at: createdAt
+       } as User;
     }
 
     async update(id:string, data:Partial<User>):Promise<User | null>{

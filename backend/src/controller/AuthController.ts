@@ -50,7 +50,6 @@ export class AuthController {
     const creatNewUser= await this.userRepo.createUser(newUser,"id_user","created_at");
     // Tao token
  
-
     const token = jwt.sign(
         {
             userId:creatNewUser.id_user,
@@ -60,6 +59,7 @@ export class AuthController {
         process.env.JWT_SECRET || 'your-secret-key',
         {expiresIn:'24h'}
     );
+
     const {password_hash,...userData}=creatNewUser;
     res.status(201).json({
         success:true,
